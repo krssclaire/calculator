@@ -1,0 +1,73 @@
+/* Mobile first */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Manrope', sans-serif;
+    font-size: 30px;
+}
+
+.calculator {
+    background-color: #181818;
+    color: white;
+    width: 100vw;
+    height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.display {
+    flex: 0.55;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 10px;
+}
+
+.display .subtext {
+    color: #7B7B7B;
+    font-size: 25px;
+}
+
+.line {
+    width: 90vw;
+    align-self: center;
+}
+
+.grid {
+    height: 40%;
+    margin: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    gap: 4vh 4vw;
+}
+
+.grid div {
+   /* border: solid white 2px;*/
+    border-radius: 15px;
+    padding: 2vh 2.5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#canc-icon {
+    height: 35px;
+    width: 35px;
+    filter: invert(100%);
+}
+
+.equal {
+    background-color: rgb(63, 73, 73);
+ }
