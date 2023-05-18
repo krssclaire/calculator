@@ -1,41 +1,87 @@
+const numbers = document.querySelectorAll('.numbers');
+const operators = document.querySelectorAll('.operators');
+const equal = document.querySelectorAll('.equal');
+const percentage = document.querySelector('.percentage');
+const display = document.querySelector('.text');
+const result = document.querySelector('.subtext');
+const clearAll = document.querySelectorAll('.clear-all');
+
+
+let n;
 let n1;
 let n2;
-let operator;
 
-function add(n1, n2) {
-    return n1 + n2;
+
+// Display numbers 
+numbers.forEach(number => {
+    number.addEventListener('click', displayNumbers);
+});
+
+function displayNumbers(e) {
+    n = e.target.textContent;
+    display.textContent = n;
+    /*
+    let text = document.createTextNode(e.target.textContent);
+    n = display.appendChild(text); */
+    console.log(n);
 }
-function subtract(n1, n2) {
-    return n1 - n2;
+
+/* Operate */
+operators.forEach(operator => {
+    operator.addEventListener('click', (e) => {
+        operator = e.target.textContent;
+        console.log(operator);
+
+        equal.forEach(eq => {
+            eq.addEventListener('click', (e) => {
+                n2 = parseInt(n, 10);
+                console.log(n2);
+                operate(operator, n1, n2)
+            });
+        });
+        n1 = parseInt(n, 10);
+    });
+});
+
+
+const add = (n1, n2) => {
+    result.textContent = n1 + n2;
+    console.log(n1+n2);
 }
-function multiply(n1, n2) {
-    return n1 * n2;
+const subtract = (n1, n2) => {
+    result.textContent = n1 - n2;
+    console.log(n1-n2);
 }
-function divide(n1, n2) {
-    return n1 / n2;
+const multiply = (n1, n2) => {
+    result.textContent = n1 * n2;
+    console.log(n1*n2);
+}
+const divide = (n1, n2) => {
+    result.textContent = n1 / n2;
+    console.log(n1/n2);
 }
 
 function operate(operator, n1, n2) {
-    
     switch (operator) {
         case '+':
-            return add(n1, n2);
+            add(n1, n2);
+            break;
         case '-':
-            return subtract(n1, n2);
+            subtract(n1, n2);
+            break;
         case '*':
-            return multiply(n1, n2);
+            multiply(n1, n2);
+            break;
         case '/':
-            return divide(n1, n2);
-    }
-/*
-    if (operator == '+') {
-        return add(n1, n2);
-    } else if (operator == '-') {
-        return subtract(n1, n2);
-    } else if (operator == ' *') {
-        return multiply(n1, n2);
-    } else {
-        return divide(n1, n2);
-    }*/
+            divide(n1, n2);
+            break;
+        }
 }
 
+/* Clean display */
+clearAll.forEach(clear => {
+    clear.addEventListener('click', (e) => {
+        display.textContent = ' ';
+        result.textContent = ' ';
+    });
+});
