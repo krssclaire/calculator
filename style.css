@@ -104,5 +104,10 @@ body {
     .display {
         gap: 15px;
     }
-
+    .grid {
+        gap: 2vh 2vw;
+    }
+    .grid div {
+         padding: 1vh 1vw;
+     }
 }
