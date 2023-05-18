@@ -18,6 +18,8 @@ body {
     color: white;
     width: 100vw;
     height: 100vh;
+    max-width: 540px;
+    margin: auto;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -41,6 +43,7 @@ body {
 
 .line {
     width: 90vw;
+    max-width: 535px;
     align-self: center;
 }
 
@@ -56,7 +59,7 @@ body {
 .grid div {
    /* border: solid white 2px;*/
     border-radius: 15px;
-    padding: 2vh 2.5px;
+    padding: 1.5vh 1.5vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,6 +71,37 @@ body {
     filter: invert(100%);
 }
 
-.equal {
-    background-color: rgb(63, 73, 73);
+.operators, .top-symbols {
+    background-color: rgb(123, 146, 146);
+    border: solid rgb(123, 146, 146) 2px;
+}
+
+.numbers, .bottom-symbols {
+    border: solid transparent 2px;
+}
+#equal {
+    background-color: rgb(0, 121, 121);
+    border: solid rgb(0, 121, 121) 2px;
  }
+
+.operators:hover, 
+.top-symbols:hover, 
+.numbers:hover, 
+.bottom-symbols:hover, 
+#equal:hover {
+    background-color: transparent;
+    border: solid white 2px;
+    cursor: pointer;
+}
+
+@media screen and (min-width: 540px) {
+    .calculator {
+        border-radius: 10px;
+        margin-top: 2.5vh;
+        height: 95vh;
+        gap: 15px;
+    }
+    .grid {
+        gap: 4vh 2vw;
+    }
+}
