@@ -1,6 +1,6 @@
 const numbers = document.querySelectorAll('.numbers');
 const operators = document.querySelectorAll('.operators');
-const equal = document.querySelector('.equal');
+const equal = document.querySelectorAll('.equal');
 const percentage = document.querySelectorAll('.percentage');
 const display = document.querySelector('.text');
 const result = document.querySelector('.subtext');
@@ -42,12 +42,13 @@ numbers.forEach(number => {
 });
 
 // Operate 
-operators.forEach(operator => {
-    operator.addEventListener('click', (e) => {
+operators.forEach(op => {
+    op.addEventListener('click', (e) => {
+        op = ' ';
         display.textContent = ' ';
         arr = [];
-        operator = e.target.textContent;
-        console.log(operator);
+        op = e.target.textContent;
+        console.log(op);
         
         percentage.forEach(percent => {
             percent.addEventListener('click', (e) => {
@@ -56,11 +57,14 @@ operators.forEach(operator => {
             });
         });
 
-        equal.addEventListener('click', (e) => {
+        equal.forEach(eq => {
+            eq.addEventListener('click', (e) => {
                 n2 = parseFloat(n);
-                operate(operator, n1, n2)
-        });
-        n1 = parseFloat(n, 10);
+                operate(op, n1, n2)
+            ;});
+        })
+
+        n1 = parseFloat(n);
     });
 });
 
@@ -78,27 +82,30 @@ const multiply = (n1, n2) => {
     console.log(n1*n2);
 }
 const divide = (n1, n2) => {
-    if (n2 == 0) result.textContent = 'ERROR';
-    console.log('ERROR');
-    result.textContent = n1 / n2;
-    console.log(n1/n2);
+    if (n2 == 0) {
+        result.textContent = 'ERROR';
+        console.log('ERROR');
+    } else {
+        result.textContent = n1 / n2;
+        console.log(n1/n2);
+    }
 }
 
 function operate(operator, n1, n2) {
     switch (operator) {
+        case ':':
+            divide(n1, n2);
+            break;
+        case 'x':
+            multiply(n1, n2);
+            break;
         case '+':
             add(n1, n2);
             break;
         case '-':
             subtract(n1, n2);
             break;
-        case '*':
-            multiply(n1, n2);
-            break;
-        case '/':
-            divide(n1, n2);
-            break;
-        }
+    }
 }
 
 /* Clean display and reset values */
