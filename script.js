@@ -4,118 +4,118 @@ const equal = document.querySelectorAll('.equal');
 const percentage = document.querySelectorAll('.percentage');
 const display = document.querySelector('.text');
 const result = document.querySelector('.subtext');
-const clearAll = document.querySelectorAll('.clear-all');
-const cancel = document.querySelectorAll('.canc');
+const clearAll = document.querySelector('.clear-all');
+const cancel = document.querySelector('.canc');
+const point = document.querySelector('.point');
 
-let arr = [];
-let n;
+let n = '';
 let n1;
 let n2;
 
+// Clean display and reset values
+clearAll.addEventListener('click', clearEverything);
+
+function clearEverything() {
+    display.textContent = ' ';
+    result.textContent = ' ';
+    operator = ' ';
+    n = '';
+    n1 = 0;
+    n2 = 0;
+}
 
 // Display numbers 
 numbers.forEach(number => {
-    number.addEventListener('click', (e) => {
-        function displayNumbers() {
-            let value =  e.target.textContent;
-            arr.push(value);
-            n = arr.join('');
-            display.textContent = n; 
-            console.log(n);
-            
-            cancel.forEach(canc => {
-                canc.addEventListener('click', (e) => {
-                    function deleteDigit() {
-                        let corrected;
-                        arr = n.split('');
-                        arr.pop();
-                        corrected = arr.join('');
-                        console.log(corrected);
-                        display.textContent = corrected;
-                    }
-                    deleteDigit();
-                });
-            });
-        }
-        displayNumbers();
-    });
+    number.addEventListener('click', () => displayNumbers(number.textContent));
 });
+
+function displayNumbers(num) {
+    n += num;
+    display.textContent = n; 
+    console.log(n);
+}
+
+//Add point
+point.addEventListener('click', addPoint);
+
+function addPoint() {
+    if (display.textContent === '') {
+        n = '0.';
+        display.textContent = n;
+    } else if (!display.textContent.includes('.')) {
+        n += '.'
+        display.textContent += n;
+    }
+}
+
+// Cancel digits
+cancel.addEventListener('click', deleteDigit);
+
+function deleteDigit() {
+    let newVal = n.slice(0, -1);
+    n = newVal;
+    console.log(n);
+    display.textContent = n;
+}
 
 // Operate 
 operators.forEach(op => {
     op.addEventListener('click', (e) => {
         op = ' ';
         display.textContent = ' ';
-        arr = [];
         op = e.target.textContent;
         console.log(op);
         
         percentage.forEach(percent => {
             percent.addEventListener('click', (e) => {
-                n2 = parseFloat(n) / 100;
+                n2 = (n) / 100;
                 result.textContent = n2;
             });
         });
 
         equal.forEach(eq => {
             eq.addEventListener('click', (e) => {
-                n2 = parseFloat(n);
+                n2 = (n);
                 operate(op, n1, n2)
             ;});
         })
 
-        n1 = parseFloat(n);
+        n1 = (n);
     });
 });
 
-
-const add = (n1, n2) => {
-    result.textContent = n1 + n2;
-    console.log(n1+n2);
-}
-const subtract = (n1, n2) => {
-    result.textContent = n1 - n2;
-    console.log(n1-n2);
-}
-const multiply = (n1, n2) => {
-    result.textContent = n1 * n2;
-    console.log(n1*n2);
-}
+const add = (n1, n2) => result.textContent = n1 + n2;
+const subtract = (n1, n2) => result.textContent = n1 - n2;
+const multiply = (n1, n2) => result.textContent = n1 * n2;
 const divide = (n1, n2) => {
     if (n2 == 0) {
         result.textContent = 'ERROR';
-        console.log('ERROR');
     } else {
         result.textContent = n1 / n2;
-        console.log(n1/n2);
-    }
+   }
 }
 
 function operate(operator, n1, n2) {
+    n1 = Number(n1);
+    n2 = Number(n2);
     switch (operator) {
         case ':':
-            divide(n1, n2);
-            break;
+            return divide(n1, n2);
         case 'x':
-            multiply(n1, n2);
-            break;
+            return multiply(n1, n2);
         case '+':
-            add(n1, n2);
-            break;
+            return add(n1, n2);
         case '-':
-            subtract(n1, n2);
-            break;
+            return subtract(n1, n2);
     }
 }
 
-/* Clean display and reset values */
-clearAll.forEach(clear => {
-    clear.addEventListener('click', (e) => {
-        display.textContent = ' ';
-        result.textContent = ' ';
-        operator = ' ';
-        arr = [];
-        n1 = 0;
-        n2 = 0;
-    });
-});
+// Keyboard input
+window.addEventListener('keydown', useKeyboard);
+
+function useKeyboard(e) {
+    if (e.key >= 0 && e.key <= 9) displayNumbers(e.key);
+    if (e.key === 'Backspace') deleteDigit();
+    if (e.key === '.') addPoint();
+    if (e.key === 'Escape') clearEverything();
+}
