@@ -1,112 +1,190 @@
-const numbers = document.querySelectorAll('.numbers');
-const operators = document.querySelectorAll('.operators');
-const equal = document.querySelectorAll('.equal');
-const percentage = document.querySelectorAll('.percentage');
-const display = document.querySelector('.text');
-const result = document.querySelector('.subtext');
-const clearAll = document.querySelector('.clear-all');
-const cancel = document.querySelector('.canc');
-const point = document.querySelector('.point');
+const numberButtons = document.querySelectorAll('.numbers');
+const operatorButtons = document.querySelectorAll('.operators');
+const equalButton = document.querySelector('.equal');
 
-let n = '';
-let n1;
-let n2;
+const operationDisplay = document.querySelector('.operation');
+const resultDisplay = document.querySelector('.result'); // input / output
 
-// Clean display and reset values
-clearAll.addEventListener('click', clearEverything);
+let n1 = '';
+let n2 = '';
+let currentOperator = '';
+let displayValue = '';
 
-function clearEverything() {
-    display.textContent = ' ';
-    result.textContent = ' ';
-    operator = ' ';
-    n = '';
-    n1 = 0;
-    n2 = 0;
-}
+equalButton.addEventListener('click', calculate);
 
-// Display numbers 
-numbers.forEach(number => {
-    number.addEventListener('click', () => displayNumbers(number.textContent));
+numberButtons.forEach(btn => {
+    btn.addEventListener('click', () => appendNumber(btn.textContent));
 });
+operatorButtons.forEach(btn => {
+    btn.addEventListener('click', () => setOperation(btn.textContent));
+})
 
-function displayNumbers(num) {
-    n += num;
-    display.textContent = n; 
-    console.log(n);
+function appendNumber(num) {
+    displayValue += num;
+    resultDisplay.textContent = displayValue;
+    //operationDisplay.textContent += displayValue;
 }
 
-//Add point
-point.addEventListener('click', addPoint);
+function setOperation(operator) {
+    n1 = displayValue;
+    currentOperator = operator;
+    operationDisplay.textContent += `${n1} ${currentOperator} `;
+    displayValue = '';
 
-function addPoint() {
-    if (display.textContent === '') {
-        n = '0.';
-        display.textContent = n;
-    } else if (!display.textContent.includes('.')) {
-        n += '.'
-        display.textContent += n;
+    //if (currentOperator === '=') operate();
+    
+}
+
+function calculate() {
+    n2 = displayValue;
+    operationDisplay.textContent += `${n2} =`
+    resultDisplay.textContent = operate(currentOperator, n1, n2);
+}
+
+// Operate
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b;
+const divide = (a, b) => a / b;
+
+function operate(operator, a, b) {
+    a = Number(a);
+    b = Number(b);
+    switch (operator) {
+        case ':':
+            return divide(a, b);
+        case 'x':
+            return multiply(a, b);
+        case '+':
+            return add(a, b);
+        case '-':
+            return subtract(a, b);
     }
 }
 
-// Cancel digits
-cancel.addEventListener('click', deleteDigit);
+//Keyboard input
+window.addEventListener('keydown', useKeyboardInput);
+
+function convertOperator(keyboardOperator) {
+    if (keyboardOperator === '/') return ':';
+    if (keyboardOperator === '*') return 'x';
+}
+
+function useKeyboardInput(e) {
+    if (e.key >= 0 && e.key <=9) appendNumber(e.key);
+    if (e.key === '+' || e.key === '-') setOperation(e.key);
+    if (e.key === '*' || e.key === '/') setOperation(convertOperator(e.key));
+    if (e.key === 'Enter') calculate();
+}
+
+/*
+const numbersBtn = document.querySelectorAll('.numbers');
+const pointBtn = document.querySelector('.point');
+const operatorsBtn = document.querySelectorAll('.operators');
+const equalBtn = document.querySelectorAll('.equal');
+const percentageBtn = document.querySelectorAll('.percentage');
+const clearBtn = document.querySelector('.clear-all');
+const deleteBtn = document.querySelector('.canc');
+const operationDisplay = document.querySelector('.operation');
+const currentValueDisplay = document.querySelector('.current-value');
+
+let val = '';
+let currentOperator = null;
+let n1 = '';
+let n2 = '';
+let cleanOperationDisplay = false;
+
+numbersBtn.forEach(btn => {
+    btn.addEventListener('click', () => appendNumber(btn.textContent));
+});
+pointBtn.addEventListener('click', appendPoint);
+operatorsBtn.forEach(btn => {
+    btn.addEventListener('click', () => getOperation(btn.textContent));
+});
+equalBtn.forEach(btn => {
+    btn.addEventListener('click', execute);
+});
+percentageBtn.forEach(btn => {
+    btn.addEventListener('click', calculatePercent);
+});
+clearBtn.addEventListener('click', clearEverything);
+deleteBtn.addEventListener('click', deleteDigit);
+
+
+function appendNumber(num) {
+    if (cleanOperationDisplay) resetOperationDisplay();
+    currentValueDisplay.textContent += num;
+}
+
+function appendPoint() {
+    if (cleanOperationDisplay) resetOperationDisplay();
+    if (currentValueDisplay.textContent === '') currentValueDisplay.textContent = '0';;
+    if (currentValueDisplay.textContent.includes('.')) 
+        currentValueDisplay.textContent += '.';
+
+}
+//??
+function getOperation(operator) {
+    n1 = Number(val);
+    val = '';
+    if (currentOperator !== '') {
+        n1 += val;
+        execute();
+    }
+    currentOperator = operator;
+    operationDisplay.textContent = `${n1} ${operator}`;
+}
+//??
+function execute() {
+    n2 = currentValueDisplay.textContent;
+    operationDisplay.textContent += ` ${n2} =`;
+    operate(currentOperator, n1, n2);
+}
+//??
+function calculatePercent() {
+    n2 = (n) / 100;
+    currentValueDisplay.textContent = n2;
+}
+
+function resetOperationDisplay() {
+    operationDisplay.textContent = '';
+    cleanOperationDisplay = false;
+}
+
+function clearEverything() {
+    currentOperator = null;
+    n1 = '';
+    n2 = '';
+    console.clear();
+    currentValueDisplay.textContent = '';
+    resetOperationDisplay();
+}
 
 function deleteDigit() {
-    let newVal = n.slice(0, -1);
-    n = newVal;
-    console.log(n);
-    display.textContent = n;
+    currentValueDisplay.textContent = currentValueDisplay.textContent.toString().slice(0, -1);
 }
 
-// Operate 
-operators.forEach(op => {
-    op.addEventListener('click', (e) => {
-        op = ' ';
-        display.textContent = ' ';
-        op = e.target.textContent;
-        console.log(op);
-        
-        percentage.forEach(percent => {
-            percent.addEventListener('click', (e) => {
-                n2 = (n) / 100;
-                result.textContent = n2;
-            });
-        });
+const add = (a, b) => currentValueDisplay.textContent = a + b;
+const subtract = (a, b) => currentValueDisplay.textContent = a - b;
+const multiply = (a, b) => currentValueDisplay.textContent = a * b;
+const divide = (a, b) => currentValueDisplay.textContent = a / b;
 
-        equal.forEach(eq => {
-            eq.addEventListener('click', (e) => {
-                n2 = (n);
-                operate(op, n1, n2)
-            ;});
-        })
-
-        n1 = (n);
-    });
-});
-
-const add = (n1, n2) => result.textContent = n1 + n2;
-const subtract = (n1, n2) => result.textContent = n1 - n2;
-const multiply = (n1, n2) => result.textContent = n1 * n2;
-const divide = (n1, n2) => {
-    if (n2 == 0) {
-        result.textContent = 'ERROR';
-    } else {
-        result.textContent = n1 / n2;
-   }
-}
-
-function operate(operator, n1, n2) {
-    n1 = Number(n1);
-    n2 = Number(n2);
+function operate(operator, a, b) {
+    a = Number(a);
+    b = Number(b);
     switch (operator) {
         case ':':
-            return divide(n1, n2);
+            if (b == 0) {
+                currentValueDisplay.textContent = 'ERROR';
+            } else {
+                return divide(a, b);
+            }
         case 'x':
-            return multiply(n1, n2);
+            return multiply(a, b);
         case '+':
-            return add(n1, n2);
+            return add(a, b);
         case '-':
-            return subtract(n1, n2);
+            return subtract(a, b);
     }
 }
 
@@ -114,8 +192,15 @@ function operate(operator, n1, n2) {
 window.addEventListener('keydown', useKeyboard);
 
 function useKeyboard(e) {
-    if (e.key >= 0 && e.key <= 9) displayNumbers(e.key);
+    if (e.key >= 0 && e.key <= 9) appendNumber(e.key);
     if (e.key === 'Backspace') deleteDigit();
-    if (e.key === '.') addPoint();
+    if (e.key === '.') appendPoint();
     if (e.key === 'Escape') clearEverything();
+    if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+        if (e.key === '*') e.key = 'x';
+        if (e.key === '/') e.key = ':';
+        getOperation(e.key);
+    }
+    if (e.key === 'Enter') execute();
 }
+*/
