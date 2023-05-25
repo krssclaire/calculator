@@ -2,7 +2,7 @@
 
 ### Intro
 This project is the final project of The Odin Project Foundation Course and it uses HTML, CSS and JS.
-The instructions below can be also found on the following link: https://www.theodinproject.com/lessons/foundations-calculator
+The original assignment can be found on the following link: https://www.theodinproject.com/lessons/foundations-calculator
 
 ### Features
 
@@ -42,7 +42,6 @@ Here are some use cases (abilities your project needs to have):
     * Display a snarky error message if the user tries to divide by 0… and don’t let it crash your calculator!
 
 ## Extra Credit
-
     * Users can get floating point numbers if they do the math required to get one, but they can’t type them in yet. Add a . button and let users input decimals! Make sure you don’t let them type more than one though: 12.3.56.5. It is hard to do math on these numbers. (disable the decimal button if there’s already one in the display)
     * Make it look nice! This is a great project to practice your CSS skills. At least make the operations a different color from the keypad buttons.
     * Add a “backspace” button, so the user can undo if they click the wrong number.
