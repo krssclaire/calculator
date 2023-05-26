@@ -4,7 +4,7 @@ const pointButton = document.querySelector('.point');
 const equalButton = document.querySelector('.equal');
 const clearAllButton = document.querySelector('.clear-all');
 const cancelButton = document.querySelector('.canc');
-const signButton = document.querySelector('.sign');
+//const signButton = document.querySelector('.sign');
 const percentageButton = document.querySelector('.percentage');
 const operationDisplay = document.querySelector('.operation');
 const resultDisplay = document.querySelector('.result');
@@ -12,15 +12,15 @@ let n1 = '';
 let n2 = '';
 let currentOperator = null;
 let displayValue = '';
-let negative = false;
-let negativeVal;
+//let negative = false;
+//let negativeVal;
 
 equalButton.addEventListener('click', calculate);
 clearAllButton.addEventListener('click', clearAll);
 pointButton.addEventListener('click', appendPoint);
 cancelButton.addEventListener('click', deleteDigit);
 percentageButton.addEventListener('click', calculatePercentage);
-signButton.addEventListener('click', changeSign);
+//signButton.addEventListener('click', changeSign);
 
 numberButtons.forEach(btn => {
     btn.addEventListener('click', () => appendNumber(btn.textContent));
@@ -32,9 +32,11 @@ operatorButtons.forEach(btn => {
 
 function appendNumber(num) {
     cleanFromDivisionByZero();
+    /*
     if (resultDisplay.textContent.includes(negativeVal)) {
         displayValue = negativeVal;
     }
+    */
     displayValue += num;
     resultDisplay.textContent = displayValue;
 }
@@ -51,7 +53,7 @@ function appendPoint() {
         return null;
     }
 }
-
+/*
 function changeSign() {
     cleanFromDivisionByZero();
     if (negative) {
@@ -63,6 +65,7 @@ function changeSign() {
         negative = true;
     }
 }
+*/
 
 function deleteDigit() {
     cleanFromDivisionByZero();
@@ -73,7 +76,7 @@ function deleteDigit() {
 function setOperation(operator) {
     cleanFromDivisionByZero();
     operationDisplay.textContent = '';
-    if (    (resultDisplay.textContent.includes(negativeVal)) || 
+    if (    /*(resultDisplay.textContent.includes(negativeVal)) || */
             (operationDisplay.textContent === '' && resultDisplay.textContent === '0') 
         ) {
         displayValue = resultDisplay.textContent;
@@ -94,28 +97,23 @@ function setOperation(operator) {
 function calculate() {
     cleanFromDivisionByZero();
     n2 = displayValue;
-    if (    (resultDisplay.textContent.includes(negativeVal)) || 
-            (operationDisplay.textContent === '' && resultDisplay.textContent === '0') 
-        ) {
-        displayValue = resultDisplay.textContent;
-    }
+    if (n1 === NaN || currentOperator === null) return;
+    operationDisplay.textContent = `${n1} ${currentOperator} ${n2} =`;
     if  (
-            (!operationDisplay.textContent.includes(n1)) ||
-            (!operationDisplay.textContent.includes(currentOperator)) 
+        (!operationDisplay.textContent.includes(n1)) ||
+        (!operationDisplay.textContent.includes(currentOperator)) 
         ) {
             displayValue = resultDisplay.textContent;
             operationDisplay.textContent = `= ${displayValue}`;
             n1 = displayValue;
-    } else {
-        operationDisplay.textContent = `${n1} ${currentOperator} ${n2} =`;
+        } 
         if (currentOperator === ':' && n2 === '0') {
             resultDisplay.textContent = 'ERROR';
         } else {
-            resultDisplay.textContent = roundResult(operate(currentOperator, n1, n2));
-            displayValue = resultDisplay.textContent;
-            n1 = displayValue;
-            currentOperator = null;
-        }
+        resultDisplay.textContent = roundResult(operate(currentOperator, n1, n2));
+        displayValue = resultDisplay.textContent;
+        n1 = displayValue;
+        currentOperator = null;
     }
 }
 
@@ -140,7 +138,7 @@ function clearAll() {
     n2 = '';
     operationDisplay.textContent = '';
     resultDisplay.textContent = '0';
-    negative = false;
+    //negative = false;
 }
 
 const roundResult = num => Math.round(num * 1000) / 1000;

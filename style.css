@@ -81,6 +81,7 @@ body {
 .equal {
     background-color: rgb(0, 121, 121);
     border: solid rgb(0, 121, 121) 2px;
+    grid-column: span 2;
  }
 
 .operators:hover, 
