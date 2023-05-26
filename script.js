@@ -94,6 +94,11 @@ function setOperation(operator) {
 function calculate() {
     cleanFromDivisionByZero();
     n2 = displayValue;
+    if (    (resultDisplay.textContent.includes(negativeVal)) || 
+            (operationDisplay.textContent === '' && resultDisplay.textContent === '0') 
+        ) {
+        displayValue = resultDisplay.textContent;
+    }
     if  (
             (!operationDisplay.textContent.includes(n1)) ||
             (!operationDisplay.textContent.includes(currentOperator)) 
@@ -139,7 +144,6 @@ function clearAll() {
 }
 
 const roundResult = num => Math.round(num * 1000) / 1000;
-
 const cleanFromDivisionByZero = () => {
     if (resultDisplay.textContent === 'ERROR') clearAll();
 }
