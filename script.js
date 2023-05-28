@@ -53,6 +53,7 @@ function appendPoint() {
         return null;
     }
 }
+
 /*
 function changeSign() {
     cleanFromDivisionByZero();
@@ -80,7 +81,9 @@ function setOperation(operator) {
             (operationDisplay.textContent === '' && resultDisplay.textContent === '0') 
         ) {
         displayValue = resultDisplay.textContent;
-    }
+    } else if (operationDisplay.textContent === '' && resultDisplay.textContent === '') {
+        displayValue = '0';
+    } 
     if (currentOperator !== null) {
         calculate();
         currentOperator = operator;
@@ -97,7 +100,7 @@ function setOperation(operator) {
 function calculate() {
     cleanFromDivisionByZero();
     n2 = displayValue;
-    if (n1 === NaN || currentOperator === null) return;
+    if (n1 === NaN || n2 === '' || currentOperator === null) return;
     operationDisplay.textContent = `${n1} ${currentOperator} ${n2} =`;
     if  (
         (!operationDisplay.textContent.includes(n1)) ||
@@ -114,19 +117,24 @@ function calculate() {
         displayValue = resultDisplay.textContent;
         n1 = displayValue;
         currentOperator = null;
-    }
+        }
 }
 
 function calculatePercentage() {
     cleanFromDivisionByZero();
+    if (operationDisplay.textContent.includes('=')) return;
     if (operationDisplay.textContent === '') {
-        displayValue = n1 / 100;
+        displayValue /= 100;
         resultDisplay.textContent =  displayValue;
     }
     if (currentOperator !== null) {
-        n2 = displayValue
+        n2 = resultDisplay.textContent;
         let percent = n1 * n2 / 100;
+        operationDisplay.textContent = `${n1} ${currentOperator} ${percent} =`;
         resultDisplay.textContent = roundResult(operate(currentOperator, n1, percent));
+        //displayValue = resultDisplay.textContent;
+        console.log(`${n1} ${currentOperator} ${n2}`);
+        console.log(percent);
         displayValue = resultDisplay.textContent;
     } 
 }
