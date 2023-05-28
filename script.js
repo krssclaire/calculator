@@ -136,6 +136,7 @@ function calculatePercentage() {
         console.log(`${n1} ${currentOperator} ${n2}`);
         console.log(percent);
         displayValue = resultDisplay.textContent;
+        n1 = '';
     } 
 }
 

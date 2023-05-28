@@ -20,4 +20,4 @@ Moreover the initial projects design made on Figma are contained in the folder "
 
 ### Credits
 * Delete icon byThose Icons - Flaticon (https://www.flaticon.com/free-icons/delete);
-* Structure Code inspiration (disabled in working-script.js) - Michal Osman  (https://github.com/michalosman/calculator);
+* Structure Code inspiration (disabled in working-script.js) - Michal Osman  (https://github.com/michalosman/calculator).
