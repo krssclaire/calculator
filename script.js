@@ -8,10 +8,12 @@ const cancelButton = document.querySelector('.canc');
 const percentageButton = document.querySelector('.percentage');
 const operationDisplay = document.querySelector('.operation');
 const resultDisplay = document.querySelector('.result');
+const buttons = document.querySelectorAll('.grid>div');
 let n1 = '';
 let n2 = '';
 let currentOperator = null;
-let displayValue = '';
+let displayValue = ''; 
+let percentageUsed = false;
 //let negative = false;
 //let negativeVal;
 
@@ -25,10 +27,35 @@ percentageButton.addEventListener('click', calculatePercentage);
 numberButtons.forEach(btn => {
     btn.addEventListener('click', () => appendNumber(btn.textContent));
 });
-
 operatorButtons.forEach(btn => {
     btn.addEventListener('click', () => setOperation(btn.textContent));
 });
+buttons.forEach(btn => {
+    btn.addEventListener('mouseover', (e) => getHoverStyle(e));
+    btn.addEventListener('mouseout', (e) => getNormalStyle(e));
+    btn.addEventListener('touchstart', (e) => getHoverStyle(e));
+    btn.addEventListener('touchend', (e) => getNormalStyle(e));
+});
+
+function getHoverStyle(event) {
+    if (event.target.classList.contains('operators') || event.target.classList.contains('top-symbols')) {
+        event.target.classList.add('operator-hover');
+    } else if (event.target.classList.contains('numbers') || event.target.classList.contains('point')) {
+        event.target.classList.add('number-hover');
+    } else if (event.target.classList.contains('equal')) {
+        event.target.classList.add('equal-hover');
+    }
+}
+
+function getNormalStyle(event) {
+    if (event.target.classList.contains('operators') || event.target.classList.contains('top-symbols')) {
+        event.target.classList.remove('operator-hover');
+    } else if (event.target.classList.contains('numbers') || event.target.classList.contains('point')) {
+        event.target.classList.remove('number-hover');
+    } else if (event.target.classList.contains('equal')) {
+        event.target.classList.remove('equal-hover');
+    }
+}
 
 function appendNumber(num) {
     cleanFromDivisionByZero();
@@ -101,6 +128,10 @@ function calculate() {
     cleanFromDivisionByZero();
     n2 = displayValue;
     if (n1 === NaN || n2 === '' || currentOperator === null) return;
+    if (percentageUsed) {
+        percentageUsed = false;
+        return;
+    }
     operationDisplay.textContent = `${n1} ${currentOperator} ${n2} =`;
     if  (
         (!operationDisplay.textContent.includes(n1)) ||
@@ -122,6 +153,7 @@ function calculate() {
 
 function calculatePercentage() {
     cleanFromDivisionByZero();
+    percentageUsed = true;
     if (operationDisplay.textContent.includes('=')) return;
     if (operationDisplay.textContent === '') {
         displayValue /= 100;
@@ -130,14 +162,11 @@ function calculatePercentage() {
     if (currentOperator !== null) {
         n2 = resultDisplay.textContent;
         let percent = n1 * n2 / 100;
-        operationDisplay.textContent = `${n1} ${currentOperator} ${percent} =`;
+        operationDisplay.textContent = `${n1} ${currentOperator} ${n2}% =`;
         resultDisplay.textContent = roundResult(operate(currentOperator, n1, percent));
-        //displayValue = resultDisplay.textContent;
-        console.log(`${n1} ${currentOperator} ${n2}`);
-        console.log(percent);
         displayValue = resultDisplay.textContent;
         n1 = '';
-    } 
+    }
 }
 
 function clearAll() {
@@ -145,6 +174,7 @@ function clearAll() {
     currentOperator = null;
     n1 = '';
     n2 = '';
+    percentageUsed = false;
     operationDisplay.textContent = '';
     resultDisplay.textContent = '0';
     //negative = false;

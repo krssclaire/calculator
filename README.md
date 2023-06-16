@@ -22,14 +22,13 @@ Live demo: [Calculator](https://krssclaire.github.io/calculator)
 
 ## Features
 
-* About the calculator:
+* About the calculator
     * Basic calculations - addition, subtraction, multiplication, division
-    * Clear All and Delete buttons - the user can clear all the display or delete one digit if a typo has been made
+    * Clear All and Delete buttons - the user can clear all the display or delete one digit at time
     * Single pair of numbers evaluation - every time the user presses a basic operator, the calculator calculates the operation and stores the result as operand of the following operation
     * Floating numbers - the calculator can make calculations with decimals
     * Percentage - the user can make complicated calculations using percentage
-    * Keyboard support - while TouchScreen users can click on button to insert input and get output, the Desktop user can use the keyboard keys
-
+    * Keyboard support - while TouchScreen users can click on buttons to insert input and get output, the Desktop user can use the keyboard keys
 * About the design
     * It is responsive on all devices, however it's not good for 4K screens as the sizes could be disturbing
     * Mobile first design approach
